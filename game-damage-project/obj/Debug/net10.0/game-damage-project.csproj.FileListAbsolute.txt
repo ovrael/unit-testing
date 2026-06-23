@@ -12,3 +12,4 @@
 /home/jacek/Projects/unit-testing/game-damage-project/obj/Debug/net10.0/game-damage-project.pdb
 /home/jacek/Projects/unit-testing/game-damage-project/obj/Debug/net10.0/game-damage-project.genruntimeconfig.cache
 /home/jacek/Projects/unit-testing/game-damage-project/obj/Debug/net10.0/ref/game-damage-project.dll
+/home/jacek/Projects/unit-testing/game-damage-project/obj/Debug/net10.0/game-damage-project.sourcelink.json

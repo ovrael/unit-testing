@@ -19,34 +19,41 @@ public class ResistanceTest
     [Fact]
     public void TestDefaultValue()
     {
-        fireResistance.Value.Should().Be(0);
+        fireResistance.LimitedValue.Should().Be(0);
         fireResistance.DamageType.Should().Be(DamageType.Fire);
     }
 
     [Theory]
-    [InlineData(50, 20, 70)]
-    [InlineData(0, 90, 75)]
-    [InlineData(0, -20, -20)]
-    [InlineData(-10, -30, -40)]
-    [InlineData(-20, 100, 75)]
-    public void ChangeResistanceValue_Expected(int baseValue, int change, int expected)
+    [InlineData(50, 20, 70, 70)]
+    [InlineData(0, 90, 90, 75)]
+    [InlineData(0, -20, -20, -20)]
+    [InlineData(-10, -30, -40, -40)]
+    [InlineData(-20, 100, 80, 75)]
+    public void ChangeResistanceValue_Expected(
+        int baseValue,
+        int change,
+        int trueExpected,
+        int limitedExpected
+    )
     {
         Resistance iceResistance = new Resistance(DamageType.Ice, baseValue);
         iceResistance.ChangeValue(change);
-        iceResistance.Value.Should().Be(expected);
+        iceResistance.TrueValue.Should().Be(trueExpected);
+        iceResistance.LimitedValue.Should().Be(limitedExpected);
     }
 
     [Theory]
-    [InlineData(0, 75)]
-    [InlineData(-5, 75)]
-    [InlineData(5, 80)]
-    [InlineData(15, 90)]
-    [InlineData(-20, 75)]
-    [InlineData(25, 90)]
-    public void ChangeMaxResistanceValue_Expected(int change, int expected)
+    [InlineData(0, 75, 75)]
+    [InlineData(-5, 70, 75)]
+    [InlineData(5, 80, 80)]
+    [InlineData(15, 90, 90)]
+    [InlineData(-20, 55, 75)]
+    [InlineData(25, 100, 90)]
+    public void ChangeMaxResistanceValue_Expected(int change, int trueExpected, int limitedExpected)
     {
         fireResistance.ChangeMaxValue(change);
-        fireResistance.MaxValue.Should().Be(expected);
+        fireResistance.TrueMaxValue.Should().Be(trueExpected);
+        fireResistance.LimitedMaxValue.Should().Be(limitedExpected);
     }
 
     [Theory]
@@ -54,10 +61,11 @@ public class ResistanceTest
     [InlineData(-20, -20)]
     [InlineData(100, 75)]
     [InlineData(47, 47)]
-    public void SetResistanceValue_Expected(int newValue, int expected)
+    public void SetResistanceValue_Expected(int newValue, int limitedExpected)
     {
         fireResistance.SetValue(newValue);
-        fireResistance.Value.Should().Be(expected);
+        fireResistance.TrueValue.Should().Be(newValue);
+        fireResistance.LimitedValue.Should().Be(limitedExpected);
     }
 
     [Theory]
@@ -65,10 +73,11 @@ public class ResistanceTest
     [InlineData(-20, 75)]
     [InlineData(85, 85)]
     [InlineData(47, 75)]
-    public void SetMaxResistanceValue_Expected(int newValue, int expected)
+    public void SetMaxResistanceValue_Expected(int newValue, int limitedExpected)
     {
         fireResistance.SetMaxValue(newValue);
-        fireResistance.Value.Should().Be(expected);
+        fireResistance.TrueMaxValue.Should().Be(newValue);
+        fireResistance.LimitedMaxValue.Should().Be(limitedExpected);
     }
 
     [Theory]
@@ -88,7 +97,7 @@ public class ResistanceTest
         Resistance iceResistance = new Resistance(DamageType.Ice, baseValue);
         iceResistance.ChangeValue(change);
         iceResistance.ChangeMaxValue(changeMax);
-        iceResistance.Value.Should().Be(expected);
+        iceResistance.LimitedValue.Should().Be(expected);
     }
 
     [Theory]
@@ -108,7 +117,7 @@ public class ResistanceTest
         Resistance iceResistance = new Resistance(DamageType.Ice, baseValue);
         iceResistance.ChangeMaxValue(changeMax);
         iceResistance.ChangeValue(change);
-        iceResistance.Value.Should().Be(expected);
+        iceResistance.LimitedValue.Should().Be(expected);
     }
 
     [Theory]
@@ -125,7 +134,7 @@ public class ResistanceTest
     {
         Resistance iceResistance = new Resistance(DamageType.Ice, baseValue);
         iceResistance.SetValue(newValue);
-        iceResistance.Value.Should().Be(expected);
+        iceResistance.LimitedValue.Should().Be(expected);
     }
 
     [Theory]
@@ -145,7 +154,7 @@ public class ResistanceTest
         Resistance iceResistance = new Resistance(DamageType.Ice, baseValue);
         iceResistance.ChangeValue(change);
         iceResistance.ChangeMaxValue(changeMax);
-        iceResistance.Value.Should().Be(expected);
+        iceResistance.LimitedValue.Should().Be(expected);
     }
 
     [Theory]
@@ -165,6 +174,6 @@ public class ResistanceTest
         Resistance iceResistance = new Resistance(DamageType.Ice, baseValue);
         iceResistance.ChangeMaxValue(changeMax);
         iceResistance.ChangeValue(change);
-        iceResistance.Value.Should().Be(expected);
+        iceResistance.LimitedValue.Should().Be(expected);
     }
 }

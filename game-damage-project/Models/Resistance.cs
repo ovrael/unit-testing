@@ -4,45 +4,53 @@ namespace game_damage_project.Models;
 
 public class Resistance(DamageType type, int value = 0)
 {
+    public static readonly int BaseMaxValue = 75;
+    public static readonly int HardMaxValue = 90;
+
     public DamageType DamageType { get; init; } = type;
-    public int Value { get; private set; } = value;
-    private int trueValue = value;
-    public int MaxValue { get; private set; } = 75;
-    private static readonly int baseMaxValue = 75;
-    private static readonly int hardMaxValue = 90;
-
-    public void ChangeMaxValue(int change)
-    {
-        MaxValue += change;
-        ComputeValue();
-    }
-
-    public void SetMaxValue(int newMaxValue)
-    {
-        MaxValue = newMaxValue;
-        ComputeValue();
-    }
+    public int LimitedValue { get; private set; } = value;
+    public int TrueValue { get; private set; } = value;
+    public int LimitedMaxValue { get; private set; } = BaseMaxValue;
+    public int TrueMaxValue { get; private set; } = BaseMaxValue;
 
     public void ChangeValue(int change)
     {
-        trueValue += change;
-        ComputeValue();
+        TrueValue += change;
+        ComputeLimitedValues();
     }
 
     public void SetValue(int newValue)
     {
-        trueValue = newValue;
-        ComputeValue();
+        TrueValue = newValue;
+        ComputeLimitedValues();
     }
 
-    private void ComputeValue()
+    public void ChangeMaxValue(int change)
     {
-        // Check if max is between base and hard max
-        int max =
-            MaxValue >= hardMaxValue ? hardMaxValue
-            : MaxValue <= baseMaxValue ? baseMaxValue
-            : MaxValue;
+        TrueMaxValue += change;
+        ComputeLimitedValues();
+    }
 
-        Value = trueValue >= max ? max : trueValue;
+    public void SetMaxValue(int newMaxValue)
+    {
+        TrueMaxValue = newMaxValue;
+        ComputeLimitedValues();
+    }
+
+    private void ComputeLimitedValues()
+    {
+        // Update max value with limits
+        if (TrueMaxValue >= HardMaxValue)
+            LimitedMaxValue = HardMaxValue;
+        else if (TrueMaxValue <= BaseMaxValue)
+            LimitedMaxValue = BaseMaxValue;
+        else
+            LimitedMaxValue = TrueMaxValue;
+
+        // Update resistance value with upper limit
+        if (TrueValue >= LimitedMaxValue)
+            LimitedValue = LimitedMaxValue;
+        else
+            LimitedValue = TrueValue;
     }
 }
