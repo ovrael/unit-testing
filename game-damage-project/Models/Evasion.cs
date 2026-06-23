@@ -1,6 +1,6 @@
 namespace game_damage_project.Models;
 
-public class Armor(int value = 0)
+public class Evasion(int value = 0)
 {
     private static readonly int minValue = 0;
     public int LimitedValue { get; private set; } = value;
@@ -23,8 +23,9 @@ public class Armor(int value = 0)
         LimitedValue = trueValue <= minValue ? minValue : trueValue;
     }
 
-    public double ComputeDamageReductionPercantage()
+    public bool ComputeEvade()
     {
-        return Math.Min(LimitedValue / 5000.0, 0.95);
+        double chance = Math.Min(LimitedValue / 5000.0, 0.95);
+        return Random.Shared.NextDouble() <= chance;
     }
 }

@@ -81,99 +81,50 @@ public class ResistanceTest
     }
 
     [Theory]
-    [InlineData(50, 20, 10, 70)]
-    [InlineData(0, 100, -5, 75)]
-    [InlineData(0, -100, 20, -100)]
-    [InlineData(20, 100, 20, 90)]
-    [InlineData(20, 100, 5, 80)]
-    [InlineData(0, 80, 5, 80)]
+    [InlineData(50, 20, 10, 70, 70)]
+    [InlineData(0, 100, -5, 100, 75)]
+    [InlineData(0, -100, 20, -100, -100)]
+    [InlineData(20, 100, 20, 120, 90)]
+    [InlineData(20, 100, 5, 120, 80)]
+    [InlineData(0, 80, 5, 80, 80)]
+    [InlineData(15, 90, 10, 105, 85)]
+    [InlineData(15, -60, 5, -45, -45)]
     public void ChangeResistanceValue_WithChangingMax_ValueFirst_Expected(
         int baseValue,
         int change,
         int changeMax,
-        int expected
+        int trueExpected,
+        int limitedExpected
     )
     {
         Resistance iceResistance = new Resistance(DamageType.Ice, baseValue);
         iceResistance.ChangeValue(change);
         iceResistance.ChangeMaxValue(changeMax);
-        iceResistance.LimitedValue.Should().Be(expected);
+        iceResistance.TrueValue.Should().Be(trueExpected);
+        iceResistance.LimitedValue.Should().Be(limitedExpected);
     }
 
     [Theory]
-    [InlineData(50, 20, 10, 70)]
-    [InlineData(0, 100, -5, 75)]
-    [InlineData(0, -100, 20, -100)]
-    [InlineData(20, 100, 20, 90)]
-    [InlineData(20, 100, 5, 80)]
-    [InlineData(0, 80, 5, 80)]
+    [InlineData(50, 20, 10, 70, 70)]
+    [InlineData(0, 100, -5, 100, 75)]
+    [InlineData(0, -100, 20, -100, -100)]
+    [InlineData(20, 100, 20, 120, 90)]
+    [InlineData(20, 100, 5, 120, 80)]
+    [InlineData(0, 80, 5, 80, 80)]
+    [InlineData(15, 90, 10, 105, 85)]
+    [InlineData(15, -60, 5, -45, -45)]
     public void ChangeResistanceValue_WithChangingMax_MaxFirst_Expected(
         int baseValue,
         int change,
         int changeMax,
-        int expected
+        int trueExpected,
+        int limitedExpected
     )
     {
         Resistance iceResistance = new Resistance(DamageType.Ice, baseValue);
         iceResistance.ChangeMaxValue(changeMax);
         iceResistance.ChangeValue(change);
-        iceResistance.LimitedValue.Should().Be(expected);
-    }
-
-    [Theory]
-    [InlineData(50, 20, 20)]
-    [InlineData(0, 90, 75)]
-    [InlineData(0, -20, -20)]
-    [InlineData(-10, -30, -30)]
-    [InlineData(-20, 100, 75)]
-    public void SetResistanceValue_WithoutChangingMax_Expected(
-        int baseValue,
-        int newValue,
-        int expected
-    )
-    {
-        Resistance iceResistance = new Resistance(DamageType.Ice, baseValue);
-        iceResistance.SetValue(newValue);
-        iceResistance.LimitedValue.Should().Be(expected);
-    }
-
-    [Theory]
-    [InlineData(50, 20, 10, 70)]
-    [InlineData(0, 100, -5, 75)]
-    [InlineData(0, -100, 20, -100)]
-    [InlineData(20, 100, 20, 90)]
-    [InlineData(20, 100, 5, 80)]
-    [InlineData(0, 80, 5, 80)]
-    public void SetResistanceValue_WithChangingMax_ValueFirst_Expected(
-        int baseValue,
-        int change,
-        int changeMax,
-        int expected
-    )
-    {
-        Resistance iceResistance = new Resistance(DamageType.Ice, baseValue);
-        iceResistance.ChangeValue(change);
-        iceResistance.ChangeMaxValue(changeMax);
-        iceResistance.LimitedValue.Should().Be(expected);
-    }
-
-    [Theory]
-    [InlineData(50, 20, 10, 70)]
-    [InlineData(0, 100, -5, 75)]
-    [InlineData(0, -100, 20, -100)]
-    [InlineData(20, 100, 20, 90)]
-    [InlineData(20, 100, 5, 80)]
-    [InlineData(0, 80, 5, 80)]
-    public void SetResistanceValue_WithChangingMax_MaxFirst_Expected(
-        int baseValue,
-        int change,
-        int changeMax,
-        int expected
-    )
-    {
-        Resistance iceResistance = new Resistance(DamageType.Ice, baseValue);
-        iceResistance.ChangeMaxValue(changeMax);
-        iceResistance.ChangeValue(change);
-        iceResistance.LimitedValue.Should().Be(expected);
+        iceResistance.TrueValue.Should().Be(trueExpected);
+        iceResistance.LimitedValue.Should().Be(limitedExpected);
     }
 }
